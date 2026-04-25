@@ -1,0 +1,16 @@
+import { authMiddleware } from "../../middlewares/authMiddleware.js";
+import { validate } from "../../middlewares/validate.js";
+import TaskController from "./task.controller.js";
+import { taskSchema } from "./task.validation.js";
+import TaskService from "./task.service.js";
+import { Router } from "express";
+const router = Router();
+
+const taskService = new TaskService()
+const taskController = new TaskController(taskService);
+
+router.post("/", authMiddleware, validate(taskSchema), taskController.createTask);
+router.get("/:id", authMiddleware, taskController.getTasks);
+router.get("/", authMiddleware, taskController.getTasks);
+
+export default router;

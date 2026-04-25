@@ -1,0 +1,9 @@
+/backend/node_modules
+/backend/.env
+/backend/config/db.js
+/backend/config/mysql.js
+
+/client/node_modules
+/client/public/build
+/client/.env
+
