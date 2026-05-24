@@ -1,4 +1,5 @@
 import type { TaskInput } from "./task.validation.js";
+import type { TaskFilters } from "./task.types.js";
 import pool from "../../config/db.js";
 
 class TaskService {
@@ -11,22 +12,96 @@ class TaskService {
         return result.rows[0];
     }
 
-    async getTasks(userId: string, id?: string) {
-        console.log(id)
+    async getTasks(filters: TaskFilters, userId: string, id?: string) {
         if (id) {
             const result = await pool.query(
-                "SELECT * FROM tasks WHERE user_id=$1 AND id=$2 ORDER BY created_at DESC",
+                `SELECT * FROM tasks WHERE user_id = $1 AND id = $2`,
                 [userId, id]
             );
-            return result.rows[0];
 
+            if (!result.rows.length) {
+                throw new Error("Task not found");
+            }
+
+            return result.rows[0];
         }
+
+        let baseQuery = `FROM tasks WHERE user_id = $1`;
+        let values: (string | number)[] = [userId];
+        let index = 2;
+
+        //filter status
+        if (filters.status) {
+            baseQuery += ` AND status = $${index}`;
+            values.push(filters.status);
+            index++;
+        }
+
+        //filter priority
+        if (filters.priority) {
+            baseQuery += ` AND priority = $${index}`;
+            values.push(filters.priority);
+            index++;
+        }
+
+        //filter search
+        if (filters.search) {
+            baseQuery += ` AND LOWER(title) LIKE LOWER($${index})`;
+            values.push(`%${filters.search}%`);
+            index++;
+        }
+
+        const countQuery = `SELECT COUNT(*) ${baseQuery}`;
+        const countResult = await pool.query(countQuery, values);
+        const total = Number(countResult.rows[0].count);
+
+        // 🔥 sorting
+        let dataQuery = `SELECT * ${baseQuery} ORDER BY created_at DESC`;
+
+        //pagination
+        const limit = 10;
+        const page = Math.max(1, Number(filters.page) || 1);
+        const offset = (page - 1) * limit;
+
+        dataQuery += ` LIMIT $${index} OFFSET $${index + 1}`;
+        const dataValues = [...values, limit, offset]
+
+
+
+        const result = await pool.query(dataQuery, dataValues);
+
+        return {
+            tasks: result.rows,
+            currentPage: page,
+            total,
+            totalPages: Math.ceil(total / limit),
+        };
+    }
+
+    async updateTask(data: TaskInput, userId: string, id: string) {
         const result = await pool.query(
-            "SELECT * FROM tasks WHERE user_id=$1 ORDER BY created_at DESC",
-            [userId]
+            `UPDATE tasks SET title=$1, description=$2, updated_at = CURRENT_TIMESTAMP  WHERE user_id=$3 AND id=$4 RETURNING *`,
+            [data.title, data.description, userId, id]
         );
 
-        return result.rows;
+        if (!result.rows.length) {
+            throw new Error("Task not found");
+        }
+
+        return result.rows[0];
+    }
+
+    async deleteTask(userId: string, id: string) {
+        const result = await pool.query(
+            `DELETE FROM tasks WHERE user_id=$1 AND id=$2 RETURNING *`,
+            [userId, id]
+        );
+
+        if (result.rowCount === 0) {
+            throw new Error("Task not found");
+        }
+
+        return result.rows[0];
     }
 }
 
