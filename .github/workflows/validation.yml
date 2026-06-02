@@ -1,0 +1,67 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      ############################
+      # Backend Validation
+      ############################
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Backend Type Check
+        working-directory: ./backend
+        run: npx tsc --noEmit
+
+      - name: Backend Lint
+        working-directory: ./backend
+        run: npm run lint
+
+      - name: Backend Build
+        working-directory: ./backend
+        run: npm run build
+
+      # - name: Backend Security Audit
+      #   working-directory: ./backend
+      #   run: npm audit --audit-level=high
+
+      ############################
+      # Frontend Validation
+      ############################
+
+      - name: Install Frontend Dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Frontend Type Check
+        working-directory: ./client
+        run: npx tsc --noEmit
+
+      - name: Frontend Lint
+        working-directory: ./client
+        run: npm run lint
+
+      - name: Frontend Build
+        working-directory: ./client
+        run: npm run build
+
+      # - name: Frontend Security Audit
+      #   working-directory: ./client
+      #   run: npm audit --audit-level=high
