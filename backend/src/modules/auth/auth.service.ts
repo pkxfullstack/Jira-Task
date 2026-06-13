@@ -20,10 +20,10 @@ class AuthService {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const result = await pool.query(
-            `INSERT INTO users (name, email, password, phone)
-            VALUES ($1, $2, $3, $4)
+            `INSERT INTO users (name, email, password, phone, system_role)
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING id, name, email`,
-            [name, email, hashedPassword, phone]
+            [name, email, hashedPassword, phone, "user"]
         );
 
         return result.rows[0];

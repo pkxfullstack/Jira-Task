@@ -38,6 +38,7 @@ const Button = ({
             startIcon={!loading ? startIcon : undefined}
             endIcon={!loading ? endIcon : undefined}
             onClick={onClick}
+            type="submit"
         >
             {loading ? <CircularProgress size={20} color="inherit" /> : children}
         </MuiButton>

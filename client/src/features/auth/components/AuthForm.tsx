@@ -4,6 +4,8 @@ import Button from '@/shared/ui/Button/Button';
 import Input from '@/shared/ui/Input/Input';
 import { Link } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { useEffect } from 'react';
+import { applyServerErrors } from '@/shared/utils/form-error.util';
 
 type FieldConfig = {
     name: string;
@@ -12,17 +14,30 @@ type FieldConfig = {
 };
 
 type Props = {
+    serverErrors?: Record<string, string>;
     type: string;
     schema: any;
+    loading: boolean;
     buttonText: string;
     fields: FieldConfig[];
     onSubmit: (data: any) => void;
 };
 
-const AuthForm = ({ type, fields, schema, onSubmit, buttonText }: Props) => {
-    const { control, handleSubmit } = useForm({
+const AuthForm = ({ type, fields, schema, onSubmit, buttonText, serverErrors, loading }: Props) => {
+    const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: zodResolver(schema),
+        defaultValues: fields.reduce(
+            (acc, field) => ({
+                ...acc,
+                [field.name]: "",
+            }),
+            {}
+        ),
     });
+
+    useEffect(() => {
+        applyServerErrors(setError, serverErrors);
+    }, [serverErrors, setError]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -38,12 +53,13 @@ const AuthForm = ({ type, fields, schema, onSubmit, buttonText }: Props) => {
                                 label={field.label}
                                 type={field.type}
                                 errorMessage={fieldState.error?.message}
+
                             />
                         )}
                     />
                 ))}
 
-                <Button> {buttonText}</Button>
+                <Button> {buttonText}{loading ? "..." : ""}</Button>
                 <Box sx={{ textAlign: "center" }}>
                     {type === "login" ? "Don't have an Account? " : "Already have an Account? "}
                     <Link to={type === "login" ? "/signup" : "/login"}>{type === "login" ? "SignUp" : "Login"}</Link>

@@ -33,8 +33,8 @@ class AuthController {
     });
 
     me = asyncHandler(async (req: Request, res: Response) => {
-        // const result = await this.authService.getMe(req.user);
-        // res.json(result);
+        const result = await this.authService.getMe(req.user);
+        res.json(result);
     });
 }
 

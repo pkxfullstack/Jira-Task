@@ -8,7 +8,7 @@ const router = Router();
 const authService = new AuthService();
 const authController = new AuthController(authService);
 
-router.post("/register", validate(registerSchema), authController.register);
+router.post("/signup", validate(registerSchema), authController.register);
 router.post("/login", authController.login);
 router.get("/me", authController.me);
 
