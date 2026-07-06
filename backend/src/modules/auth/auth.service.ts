@@ -1,15 +1,28 @@
 import { ApiError } from "../../shared/utils/ApiError.js";
 import type { LoginInput } from "./auth.validation.js";
-import type { RegisterData } from "./auth.types.js";
+import type { AuthUser, RegisterData } from "./auth.types.js";
+import { env } from "../../config/env.js";
 import pool from "../../config/db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 class AuthService {
+    private toAuthUser(user: Record<string, unknown>): AuthUser {
+        return {
+            id: String(user.id),
+            name: String(user.name),
+            email: String(user.email),
+            ...(user.profile_image
+                ? { profileImageUrl: String(user.profile_image) }
+                : {}),
+            systemRole: String(user.system_role),
+        };
+    }
+
     async register(data: RegisterData) {
         const { name, email, password, phone } = data;
         const existingUser = await pool.query(
-            "SELECT * FROM users WHERE email = $1",
+            "SELECT id FROM users WHERE email = $1",
             [email]
         );
 
@@ -32,7 +45,8 @@ class AuthService {
     async login(data: LoginInput) {
         const { email, password } = data;
         const result = await pool.query(
-            "SELECT * FROM users WHERE email = $1",
+            `SELECT id, name, email, password, profile_image_url, system_role
+             FROM users WHERE email = $1`,
             [email]
         );
 
@@ -48,20 +62,29 @@ class AuthService {
         }
 
         const token = jwt.sign(
-            { id: user.id, email: user.email, name: user.name, image: user.profile_image },
-            process.env.JWT_SECRET!,
+            { id: user.id, email: user.email },
+            env.JWT_SECRET,
             { expiresIn: "15m" }
         );
 
-        const { password: _, ...safeUser } = user;
         return {
             token,
-            user: safeUser,
+            user: this.toAuthUser(user),
         };
     }
 
-    async getMe(user: RegisterData) {
-        return user;
+    async getMe(userId: string) {
+        const result = await pool.query(
+            `SELECT id, name, email, profile_image_url, system_role
+             FROM users WHERE id = $1`,
+            [userId]
+        );
+
+        if (!result.rows[0]) {
+            throw new ApiError(401, "User no longer exists");
+        }
+
+        return this.toAuthUser(result.rows[0]);
     }
 }
 

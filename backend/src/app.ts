@@ -9,6 +9,7 @@ import pool from "./config/db.js";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
+import { env } from "./config/env.js";
 
 const app = express();
 pool.connect()
@@ -22,7 +23,10 @@ pool.connect()
     });
 app.use(helmet());
 app.use(cookieParser());
-app.use(cors({ origin: "*", }));
+app.use(cors({
+    origin: env.CLIENT_ORIGIN,
+    credentials: true,
+}));
 
 // 🧾 Logging
 app.use(morgan("dev"));

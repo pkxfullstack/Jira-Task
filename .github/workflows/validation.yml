@@ -30,9 +30,10 @@ jobs:
         working-directory: ./backend
         run: npx tsc --noEmit
 
-      # - name: Backend Lint
-      #   working-directory: ./backend
-      #   run: npm run lint
+      - name: Backend Lint
+        working-directory: ./backend
+        run: npm run lint
+        # - name: Run Biome
 
       - name: Backend Build
         working-directory: ./backend
@@ -54,9 +55,10 @@ jobs:
         working-directory: ./client
         run: npx tsc --noEmit
 
-      # - name: Frontend Lint
-      #   working-directory: ./client
-      #   run: npm run lint
+      - name: Frontend Lint
+        working-directory: ./client
+        run: npm run lint
+        # - name: Run Biome
 
       - name: Frontend Build
         working-directory: ./client
