@@ -17,7 +17,7 @@ export const sidebarItems: SidebarItem[] = [
 	},
 	{
 		label: "Tasks",
-		path: "/tasks",
+		path: "/admin/tasks",
 		icon: TaskIcon,
 	},
 	{
@@ -25,4 +25,9 @@ export const sidebarItems: SidebarItem[] = [
 		path: "/admin/process",
 		icon: InsightsIcon,
 	},
+	{
+		label: "Users",
+		path: "/admin/users",
+		icon: InsightsIcon,
+	}
 ];

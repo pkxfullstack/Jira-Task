@@ -6,6 +6,8 @@ import Dashboard from "@/features/dashboard/pages/Dashboard";
 import ProcessLog from "@/features/processing/ProcessLog";
 import AdminLayout from "@/layouts/AdminLayout";
 import AuthLayout from "@/layouts/AuthLayout";
+import Task from "@/features/tasks/Task";
+import User from "@/features/users/User";
 
 const router = createBrowserRouter([
 	{
@@ -21,6 +23,8 @@ const router = createBrowserRouter([
 		children: [
 			{ path: "/admin", element: <Dashboard /> },
 			{ path: "/admin/process", element: <ProcessLog /> },
+			{ path: "/admin/tasks", element: <Task /> },
+			{ path: "/admin/users", element: <User /> },
 		],
 	},
 ]);
