@@ -7,8 +7,15 @@ import { loginSuccess } from "../auth.slice";
 import AuthForm from "../components/AuthForm";
 import { loginFields } from "../config/signup.fields";
 import { loginSchema } from "../signup.schema";
+import useToogle from "../useToogle";
+import { Switch } from "@mui/material";
+import { useContext } from "react";
+import ThemeContext from "@/layouts/ThemeContext";
 
 const Login = () => {
+	const { user } = useContext(ThemeContext)
+	console.log(user)
+	const { value, toggle } = useToogle()
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [login, { isLoading, error }] = useLoginMutation();
@@ -36,19 +43,27 @@ const Login = () => {
 	};
 
 	return (
-		<AuthForm
-			type={"login"}
-			fields={loginFields}
-			schema={loginSchema}
-			onSubmit={handleLogin}
-			buttonText="Log in"
-			loading={isLoading}
-			serverErrors={
-				error && "data" in error
-					? (error.data as Record<string, string>)
-					: undefined
-			}
-		/>
+		<>
+			<AuthForm
+				type={"login"}
+				fields={loginFields}
+				schema={loginSchema}
+				onSubmit={handleLogin}
+				buttonText="Log in"
+				loading={isLoading}
+				serverErrors={
+					error && "data" in error
+						? (error.data as Record<string, string>)
+						: undefined
+				}
+			/>
+			{String(value)}
+			<Switch
+				checked={value}
+				onChange={toggle}
+				slotProps={{ input: { 'aria-label': 'controlled' } }}
+			/>
+		</>
 	);
 };
 

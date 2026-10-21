@@ -13,7 +13,7 @@ const cookieOptions = {
 };
 
 class AuthController {
-	constructor(private authService: AuthService) {}
+	constructor(private authService: AuthService) { }
 
 	register = asyncHandler(async (req: Request, res: Response) => {
 		const data: RegisterInput = req.body;
@@ -31,7 +31,7 @@ class AuthController {
 
 		res.cookie("token", result.token, {
 			...cookieOptions,
-			maxAge: 15 * 60 * 1000,
+			maxAge: 30 * 60 * 1000,
 		});
 
 		return res.json({

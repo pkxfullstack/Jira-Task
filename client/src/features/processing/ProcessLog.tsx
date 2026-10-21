@@ -1,4 +1,4 @@
-import { Table } from "@/shared/ui/Table/Table";
+import Table from "@/shared/ui/Table/Table";
 import { useGetLogsQuery } from "./process.api";
 
 const ProcessLog = () => {

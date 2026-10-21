@@ -4,7 +4,6 @@ import type { ZodType } from "zod";
 export const validate = (schema: ZodType) => {
 	return (req: Request, res: Response, next: NextFunction) => {
 		const result = schema.safeParse(req.body);
-		console.log("Validation result:", req.body.phone, result);
 		if (!result.success) {
 			const formattedErrors: Record<string, string> = {};
 

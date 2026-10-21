@@ -8,6 +8,7 @@ import {
 	TableRow,
 } from "@mui/material";
 import type { Column } from "./types";
+import React from "react";
 
 type TableProps<T> = {
 	data: T[];
@@ -15,7 +16,7 @@ type TableProps<T> = {
 	loading?: boolean;
 };
 
-export function Table<T>({ data, columns, loading }: TableProps<T>) {
+function Table<T>({ data, columns, loading }: TableProps<T>) {
 	if (loading) return "Loading...";
 	if (!data.length) return "No Data Found";
 
@@ -51,3 +52,5 @@ export function Table<T>({ data, columns, loading }: TableProps<T>) {
 		</TableContainer>
 	);
 }
+
+export default React.memo(Table) as typeof Table;
