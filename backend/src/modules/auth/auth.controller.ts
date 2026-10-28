@@ -13,7 +13,7 @@ const cookieOptions = {
 };
 
 class AuthController {
-	constructor(private authService: AuthService) { }
+	constructor(private authService: AuthService) {}
 
 	register = asyncHandler(async (req: Request, res: Response) => {
 		const data: RegisterInput = req.body;

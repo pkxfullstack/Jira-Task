@@ -4,10 +4,10 @@ import Login from "@/features/auth/pages/Login";
 import Signup from "@/features/auth/pages/Signup";
 import Dashboard from "@/features/dashboard/pages/Dashboard";
 import ProcessLog from "@/features/processing/ProcessLog";
-import AdminLayout from "@/layouts/AdminLayout";
-import AuthLayout from "@/layouts/AuthLayout";
 import Task from "@/features/tasks/Task";
 import User from "@/features/users/User";
+import AdminLayout from "@/layouts/AdminLayout";
+import AuthLayout from "@/layouts/AuthLayout";
 
 const router = createBrowserRouter([
 	{

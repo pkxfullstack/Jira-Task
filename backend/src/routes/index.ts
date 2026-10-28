@@ -1,9 +1,9 @@
+import { Router } from "express";
+import authRouter from "../modules/auth/auth.routes.js";
 import processMiningRouter from "../modules/process/process.route.js";
 import projectRouter from "../modules/projects/project.routes.js";
-import userRouter from "../modules/users/users.routes.js";
 import taskRouter from "../modules/tasks/task.routes.js";
-import authRouter from "../modules/auth/auth.routes.js";
-import { Router } from "express";
+import userRouter from "../modules/users/users.routes.js";
 
 const router = Router();
 

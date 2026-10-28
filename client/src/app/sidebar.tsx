@@ -29,5 +29,5 @@ export const sidebarItems: SidebarItem[] = [
 		label: "Users",
 		path: "/admin/users",
 		icon: InsightsIcon,
-	}
+	},
 ];

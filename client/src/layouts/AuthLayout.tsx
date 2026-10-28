@@ -2,7 +2,6 @@ import { Box, Grid, Typography } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import ThemeContext from "./ThemeContext";
 
-
 const AuthLayout = () => {
 	return (
 		<ThemeContext.Provider value={{ user: "user" }}>

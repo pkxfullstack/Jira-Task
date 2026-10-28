@@ -7,8 +7,8 @@ import {
 	TableHead,
 	TableRow,
 } from "@mui/material";
-import type { Column } from "./types";
 import React from "react";
+import type { Column } from "./types";
 
 type TableProps<T> = {
 	data: T[];

@@ -1,11 +1,11 @@
-import createWebStorage from "redux-persist/es/storage/createWebStorage";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { processApi } from "@/features/processing/process.api";
 import { persistReducer, persistStore } from "redux-persist";
-import snackbarReducer from "@/shared/ui/snackbar.slice";
-import authReducer from "@/features/auth/auth.slice";
-import { usersApi } from "@/features/users/users.api";
+import createWebStorage from "redux-persist/es/storage/createWebStorage";
 import { authApi } from "@/features/auth/auth.api";
+import authReducer from "@/features/auth/auth.slice";
+import { processApi } from "@/features/processing/process.api";
+import { usersApi } from "@/features/users/users.api";
+import snackbarReducer from "@/shared/ui/snackbar.slice";
 
 const storage = createWebStorage("local");
 

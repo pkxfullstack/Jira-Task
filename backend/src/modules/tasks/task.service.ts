@@ -6,7 +6,14 @@ class TaskService {
 	async createTask(data: TaskInput, userId: string) {
 		const result = await pool.query(
 			`INSERT INTO tasks (title, description, acceptance_criteria, type, project_id, assigned_user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-			[data.title, data.description, data.acceptance_criteria, data.type, data.project_id, userId],
+			[
+				data.title,
+				data.description,
+				data.acceptance_criteria,
+				data.type,
+				data.project_id,
+				userId,
+			],
 		);
 
 		return result.rows[0];

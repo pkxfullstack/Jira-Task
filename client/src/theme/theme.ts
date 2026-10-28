@@ -25,5 +25,36 @@ export const theme = createTheme({
 				},
 			},
 		},
+		MuiOutlinedInput: {
+			styleOverrides: {
+				root: {
+					borderRadius: "12px",
+					"&:hover .MuiOutlinedInput-notchedOutline": {
+						borderColor: "#1976d2",
+					},
+					"&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+						borderColor: "#1976d2",
+					},
+				},
+			},
+		},
+		MuiInput: {
+			styleOverrides: {
+				root: {
+					borderRadius: "12px",
+				},
+			},
+		},
+		MuiFormHelperText: {
+			styleOverrides: {
+				root: {
+					"&.Mui-error": {
+						color: "#d32f2f",
+						marginLeft: 0,
+						marginRight: 0,
+					},
+				},
+			},
+		},
 	},
 });

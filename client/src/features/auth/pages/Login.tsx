@@ -1,5 +1,8 @@
+import { Switch } from "@mui/material";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import ThemeContext from "@/layouts/ThemeContext";
 import { showSnackbar } from "@/shared/ui/snackbar.slice";
 import { useAppDispatch } from "../../../store/hooks";
 import { type LoginRequest, useLoginMutation } from "../auth.api";
@@ -8,14 +11,11 @@ import AuthForm from "../components/AuthForm";
 import { loginFields } from "../config/signup.fields";
 import { loginSchema } from "../signup.schema";
 import useToogle from "../useToogle";
-import { Switch } from "@mui/material";
-import { useContext } from "react";
-import ThemeContext from "@/layouts/ThemeContext";
 
 const Login = () => {
-	const { user } = useContext(ThemeContext)
-	console.log(user)
-	const { value, toggle } = useToogle()
+	// const { user } = useContext(ThemeContext)
+	// console.log(user)
+	const { value, toggle } = useToogle();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [login, { isLoading, error }] = useLoginMutation();
@@ -61,7 +61,7 @@ const Login = () => {
 			<Switch
 				checked={value}
 				onChange={toggle}
-				slotProps={{ input: { 'aria-label': 'controlled' } }}
+				slotProps={{ input: { "aria-label": "controlled" } }}
 			/>
 		</>
 	);
