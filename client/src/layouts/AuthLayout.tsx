@@ -4,7 +4,7 @@ import ThemeContext from "./ThemeContext";
 
 const AuthLayout = () => {
 	return (
-		<ThemeContext.Provider value={{ user: "user" }}>
+		// <ThemeContext.Provider value={{ user: "user" }}>
 			<Grid container sx={{ height: "100vh" }}>
 				{/* LEFT SIDE (Branding) */}
 				<Grid
@@ -42,7 +42,7 @@ const AuthLayout = () => {
 					</Box>
 				</Grid>
 			</Grid>
-		</ThemeContext.Provider>
+		// </ThemeContext.Provider>
 	);
 };
 

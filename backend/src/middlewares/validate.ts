@@ -11,7 +11,7 @@ export const validate = (schema: ZodType) => {
 				const field = String(err.path[0] ?? "general");
 				formattedErrors[field] = err.message;
 			});
-			console.log(result.error.issues);
+
 			return res.status(422).json({
 				success: false,
 				message: "Validation failed",
