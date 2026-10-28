@@ -1,0 +1,1 @@
+{"version":3,"file":"process.service.js","sourceRoot":"","sources":["../../../src/modules/process/process.service.ts"],"names":[],"mappings":"AACA,OAAO,IAAI,MAAM,uBAAuB,CAAC;AAEzC,MAAM,CAAC,MAAM,gBAAgB,GAAG,KAAK,EAAE,IAAY,EAAE,KAAa,EAAE,EAAE;IAClE,MAAM,CAAC,IAAI,CAAC,GAAG,MAAM,IAAI,CAAC,KAAK,CAAgB,kGAAkG,KAAK,WAAW,IAAI,EAAE,CAAC,CAAC;IACzK,OAAO,IAAI,CAAC;AAChB,CAAC,CAAC"}
